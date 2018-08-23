@@ -1,8 +1,8 @@
 ----------------------------------------------------------------------------------
--- Engineer:		E.W. Hansen, after an original design by J. Graham Keggi
+-- Engineer:		David Mena, taken from VGA test patter from Eric Hansen
 -- 
--- Create Date:	15:10:36 07/12/2010 
--- Module Name:	vga_test_pattern - Behavioral
+-- Create Date:	15:10:36 07/12/2018 
+-- Module Name:	Game Mechanics - Behavioral
 -- Target Device:	Basys 3 (Artix 7)
 --
 -- Description:	 Lookup table, receives 10 bit pixel address for 640x480 VGA display
@@ -16,19 +16,19 @@ use IEEE.NUMERIC_STD.ALL;
 
 ENTITY test_pattern is
 	port(	clk                 : in std_logic; 
-	        row, column			: in  std_logic_vector( 9 downto 0);
+	        row, column	: in  std_logic_vector( 9 downto 0);
 	        start_pause         : in std_logic;
 	        pa_up               : in std_logic;
 	        pa_down             : in std_logic;
 	        pb_up               : in std_logic;
 	        pb_down             : in std_logic;
-			color				: out std_logic_vector(11 downto 0);
-			leftwall            : out std_logic;
-			rightwall          : out std_logic;
-			ballBig              :in std_logic;
-			ballSmall            :in std_logic;
-			paddleBig            :in std_logic;
-			paddleSmall          :in std_logic);
+		color		: out std_logic_vector(11 downto 0);
+		leftwall            : out std_logic;
+		rightwall          : out std_logic;
+		ballBig              :in std_logic;
+		ballSmall            :in std_logic;
+		paddleBig            :in std_logic;
+		paddleSmall          :in std_logic);
 end test_pattern;
 
 architecture Behavioral of test_pattern is
@@ -69,22 +69,22 @@ architecture Behavioral of test_pattern is
 	signal paddleCounterA: integer := 0;
 	signal pa_up_f, pa_down_f: std_logic := '0'; 
 	signal paddleCounterB: integer := 0;
-    signal pb_up_f, pb_down_f: std_logic := '0';
-    signal ballCounter: integer := 0;
-    signal ball_move: std_logic := '0';
+	signal pb_up_f, pb_down_f: std_logic := '0';
+	signal ballCounter: integer := 0;
+	signal ball_move: std_logic := '0';
     
     --Ball Mechanics
     signal ball_x_velocity: integer := 1; 
     signal ball_y_velocity: integer := 1; 
-    
+
     --Random Variable for starting
     signal random_start: integer := 0;
     signal ball_x_velocity_f: integer := 1;
     signal ball_y_velocity_f: integer := 1;
-    
+
     --Random Color Change
     signal change_color: integer := 0;
-    
+
     --Big and Small Variables
     signal size_counter: integer := 0;
     
@@ -167,7 +167,8 @@ begin
         end if;
     end if;
 end process paddle_b;
-
+--This is case statement is in charge of choosing the
+--Starting direction of the ball. 
 random_start_direction: process(clk)
 begin
     if rising_edge(clk) then
